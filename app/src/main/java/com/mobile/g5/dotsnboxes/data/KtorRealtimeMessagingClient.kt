@@ -38,6 +38,7 @@ class KtorRealtimeMessagingClient(
 
     override suspend fun close() {
         session!!.close()
+        session = null
     }
 
 }

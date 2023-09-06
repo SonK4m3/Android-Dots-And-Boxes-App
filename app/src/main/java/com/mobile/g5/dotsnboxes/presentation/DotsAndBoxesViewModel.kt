@@ -28,7 +28,7 @@ class DotsAndBoxesViewModel @Inject constructor(
     val showConnectionError = _showConnectionError.asStateFlow()
 
     fun finishTurn(x: Int, y: Int) {
-        if(state.value.field[y][x] != null)
+        if(state.value.field[y][x] != null || state.value.winningPlayer == null)
             return
 
         viewModelScope.launch {
