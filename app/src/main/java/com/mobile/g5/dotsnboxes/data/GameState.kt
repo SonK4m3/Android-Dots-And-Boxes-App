@@ -3,13 +3,13 @@ package com.mobile.g5.dotsnboxes.data
 @kotlinx.serialization.Serializable
 data class GameState(
     val playerAtTurn: Int? = 0,
-    val field: Array<Array<Int?>> = emptyField(),
+    val field: Array<Array<Rope?>> = emptyField(),
     val winningPlayer: Int? = null,
     val isBoardFull: Boolean = false,
     val connectedPlayers: List<Int> = emptyList(),
 ) {
     companion object {
-        fun emptyField(): Array<Array<Int?>> {
+        fun emptyField(): Array<Array<Rope?>> {
             return arrayOf(
                 arrayOf(null, null, null, null, null),  // vertical 1
                 arrayOf(null, null, null, null, null),

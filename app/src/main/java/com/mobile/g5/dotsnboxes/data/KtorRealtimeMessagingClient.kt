@@ -1,5 +1,6 @@
 package com.mobile.g5.dotsnboxes.data
 
+import android.util.Log
 import io.ktor.client.*
 import io.ktor.client.features.websocket.*
 import io.ktor.client.request.*
@@ -11,34 +12,37 @@ import kotlinx.serialization.json.Json
 
 class KtorRealtimeMessagingClient(
     private val client: HttpClient
-): RealtimeMessagingClient {
+) : RealtimeMessagingClient {
 
     private var session: WebSocketSession? = null
 
     override fun getGameStateStream(): Flow<GameState> {
         return flow {
             session = client.webSocketSession {
-                url("ws://127.0.0.1:8080/game")
+                url("ws:////4f4e-2405-4802-1d68-8e60-386b-8af5-207a-1b98.ngrok-free.app/play")
+//                url("ws://192.168.1.87/play")
             }
-            val gameState = session!!
+
+            val gameStates = session!!
                 .incoming
                 .consumeAsFlow()
                 .filterIsInstance<Frame.Text>()
                 .mapNotNull { Json.decodeFromString<GameState>(it.readText()) }
 
-            emitAll(gameState)
+            emitAll(gameStates)
         }
     }
 
     override suspend fun sendAction(action: MakeTurn) {
-        session!!.outgoing.send(
+        Log.d("AAA", "$session sendAction")
+
+        session?.outgoing?.send(
             Frame.Text("make_turn#${Json.encodeToString(action)}")
         )
     }
 
     override suspend fun close() {
-        session!!.close()
+        session?.close()
         session = null
     }
-
 }

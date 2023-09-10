@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -30,12 +31,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.mobile.g5.dotsnboxes.data.GameState
+import com.mobile.g5.dotsnboxes.data.KtorRealtimeMessagingClient
+import com.mobile.g5.dotsnboxes.data.Rope
 import com.mobile.g5.dotsnboxes.presentation.DotsAndBoxesField
 import com.mobile.g5.dotsnboxes.presentation.DotsAndBoxesViewModel
 import com.mobile.g5.dotsnboxes.ui.theme.Beige
 import com.mobile.g5.dotsnboxes.ui.theme.Brown01
 import com.mobile.g5.dotsnboxes.ui.theme.DotsAndBoxsTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,18 +52,18 @@ class MainActivity : ComponentActivity() {
                 val isConnecting by viewModel.isConnecting.collectAsState()
                 val showConnectionError by viewModel.showConnectionError.collectAsState()
 
-                if (showConnectionError) {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(
-                            text = "Could not connect to server",
-                            color = MaterialTheme.colors.error
-                        )
-                    }
-                    return@DotsAndBoxsTheme
-                }
+//                if (showConnectionError) {
+//                    Box(
+//                        modifier = Modifier.fillMaxSize(),
+//                        contentAlignment = Alignment.Center
+//                    ) {
+//                        Text(
+//                            text = "Could not connect to server",
+//                            color = MaterialTheme.colors.error
+//                        )
+//                    }
+//                    return@DotsAndBoxsTheme
+//                }
 
                 Column(
                     modifier = Modifier
@@ -122,7 +128,22 @@ class MainActivity : ComponentActivity() {
 
 
                     DotsAndBoxesField(
-                        gameState = state,
+                        gameState = GameState(
+                            field = arrayOf(
+                                arrayOf(Rope(1, 1), Rope(1, 3), null, null, null),  // vertical 1
+                                arrayOf(null, null, null, null, null),
+                                arrayOf(null, null, null, null, null),
+                                arrayOf(null, null, null, null, null),
+                                arrayOf(null, null, null, null, null),
+                                arrayOf(null, null, null, null, null),  // vertical 6
+                                arrayOf(null, null, null, null, null),  // horizontal 1
+                                arrayOf(null, null, null, null, null),
+                                arrayOf(null, null, null, null, null),
+                                arrayOf(null, null, Rope(2, 2), null, null),
+                                arrayOf(null, Rope(1, 4), null, Rope(2, 5), null),
+                                arrayOf(null, null, Rope(3, 0), null, null),  // horizontal 6
+                            )
+                        ),
                         boxesNumber = 5,
                         onTapInField = viewModel::finishTurn,
                         modifier = Modifier
@@ -131,8 +152,17 @@ class MainActivity : ComponentActivity() {
                             .aspectRatio(1f)
                             .padding(10.dp)
                     )
-
                 }
+//                if (isConnecting) {
+//                    Box(
+//                        modifier = Modifier
+//                            .fillMaxSize()
+//                            .background(Color.White),
+//                        contentAlignment = Alignment.Center
+//                    ) {
+//                        CircularProgressIndicator()
+//                    }
+//                }
             }
         }
     }

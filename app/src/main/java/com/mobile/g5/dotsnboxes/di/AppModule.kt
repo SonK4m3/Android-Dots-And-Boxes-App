@@ -7,10 +7,11 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import io.ktor.client.HttpClient
-import io.ktor.client.engine.cio.CIO
-import io.ktor.client.features.logging.Logging
-import io.ktor.client.features.websocket.WebSockets
+import io.ktor.client.engine.cio.*
+import io.ktor.client.features.logging.*
+import io.ktor.client.features.websocket.*
 import javax.inject.Singleton
+
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -25,8 +26,8 @@ object AppModule {
         }
     }
 
-    @Singleton
-    @Provides
+   @Singleton
+   @Provides
     fun provideRealtimeMessagingClient(httpClient: HttpClient): RealtimeMessagingClient {
         return KtorRealtimeMessagingClient(httpClient)
     }
