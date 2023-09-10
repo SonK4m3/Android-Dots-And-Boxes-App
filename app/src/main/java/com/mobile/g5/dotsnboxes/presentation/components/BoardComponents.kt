@@ -17,23 +17,23 @@ import androidx.compose.ui.unit.dp
 import com.mobile.g5.dotsnboxes.ui.theme.*
 
 fun DrawScope.drawDot(
+    center: Offset = Offset.Zero,
     circleRadius: Float,
     shadowOffset: Float
 ) {
-    translate(shadowOffset, shadowOffset) {
-        drawCircle(
-            brush = Brush.radialGradient(
-                colors = listOf(Color.Black, Color.Transparent),
-                radius = circleRadius,
-                tileMode = TileMode.Clamp
-            ),
+    drawCircle(
+        brush = Brush.radialGradient(
+            colors = listOf(Color.Black, Color.Transparent),
             radius = circleRadius,
-        )
-    }
+            center = center.plus(Offset(shadowOffset, shadowOffset))
+        ),
+        center = center.plus(Offset(shadowOffset, shadowOffset))
+    )
 
     drawCircle(
         color = Black01,
-        radius = circleRadius
+        radius = circleRadius,
+        center = center
     )
 }
 
@@ -50,36 +50,34 @@ fun DrawScope.drawRope(
     val arcWidth = curvedEdgeWidth * 0.4f
 
     val top = if (orientation == Orientation.Horizontal)
-            Offset((curvedEdgeLength - arcHeight) / 2, -arcWidth / 2)
-        else
-            Offset(-arcWidth / 2, (curvedEdgeLength - arcHeight) / 2)
+        Offset((curvedEdgeLength - arcHeight) / 2, -arcWidth / 2)
+    else
+        Offset(-arcWidth / 2, (curvedEdgeLength - arcHeight) / 2)
 
     val bottom = if (orientation == Orientation.Horizontal)
-            Offset((curvedEdgeLength - arcHeight) / 2, curvedEdgeWidth - arcWidth / 2)
-        else
-            Offset(curvedEdgeWidth - arcWidth / 2, (curvedEdgeLength - arcHeight) / 2)
+        Offset((curvedEdgeLength - arcHeight) / 2, curvedEdgeWidth - arcWidth / 2)
+    else
+        Offset(curvedEdgeWidth - arcWidth / 2, (curvedEdgeLength - arcHeight) / 2)
 
     val angleTop = if (orientation == Orientation.Horizontal)
-            Offset(0f, 180f)
-        else
-            Offset(-90f, 180f)
+        Offset(0f, 180f)
+    else
+        Offset(-90f, 180f)
 
     val angleBottom = if (orientation == Orientation.Horizontal)
-            Offset(0f, -180f)
-        else
-            Offset(-90f, -180f)
+        Offset(0f, -180f)
+    else
+        Offset(-90f, -180f)
 
     drawRoundRect(
         color = color,
         topLeft = position,
         size = if (orientation == Orientation.Horizontal) Size(
-            curvedEdgeLength, curvedEdgeWidth
-        ) else Size(curvedEdgeWidth, curvedEdgeLength),
+            curvedEdgeLength, curvedEdgeWidth - 2f
+        ) else Size(curvedEdgeWidth, curvedEdgeLength - 2f),
         cornerRadius = CornerRadius(cornerRadius),
         style = Fill
     )
-
-    val blend = BlendMode.SrcIn
 
     drawArc(
         color = Beige,
@@ -90,7 +88,7 @@ fun DrawScope.drawRope(
         startAngle = angleTop.x,
         sweepAngle = angleTop.y,
         useCenter = true,
-        blendMode = blend,
+        blendMode = DrawScope.DefaultBlendMode,
     )
 
     drawArc(
@@ -102,7 +100,7 @@ fun DrawScope.drawRope(
         startAngle = angleBottom.x,
         sweepAngle = angleBottom.y,
         useCenter = true,
-        blendMode = blend
+        blendMode = DrawScope.DefaultBlendMode
     )
 }
 
@@ -125,13 +123,13 @@ fun DrawScope.drawPreRope(
 
     val startLine = if (orientation == Orientation.Horizontal)
         position.plus(Offset(0f, curvedEdgeWidth / 2))
-        else
-            position.plus(Offset(curvedEdgeWidth / 2, 0f))
+    else
+        position.plus(Offset(curvedEdgeWidth / 2, 0f))
 
     val endLine = if (orientation == Orientation.Horizontal)
         position.plus(Offset(curvedEdgeLength, curvedEdgeWidth / 2))
-        else
-            position.plus(Offset(curvedEdgeWidth / 2, curvedEdgeLength))
+    else
+        position.plus(Offset(curvedEdgeWidth / 2, curvedEdgeLength))
 
     drawLine(
         color = Red02,
