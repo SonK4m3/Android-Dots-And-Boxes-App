@@ -19,7 +19,7 @@ class KtorRealtimeMessagingClient(
     override fun getGameStateStream(): Flow<GameState> {
         return flow {
             session = client.webSocketSession {
-                url("ws:////4f4e-2405-4802-1d68-8e60-386b-8af5-207a-1b98.ngrok-free.app/play")
+                url("ws://a1de-2405-4802-1cbf-2c00-2c10-81e6-a087-2797.ngrok-free.app/play")
 //                url("ws://192.168.1.87/play")
             }
 
@@ -34,8 +34,6 @@ class KtorRealtimeMessagingClient(
     }
 
     override suspend fun sendAction(action: MakeTurn) {
-        Log.d("AAA", "$session sendAction")
-
         session?.outgoing?.send(
             Frame.Text("make_turn#${Json.encodeToString(action)}")
         )

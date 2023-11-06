@@ -9,10 +9,12 @@ val Teal200 = Color(0xFF03DAC5)
 
 val BlueCustom = Color(0xFF3871df)
 val Blue01 = Color(0xFF337CCF)
+val Blue02 = Color(0xFF2c6fbc)
 
 val Beige = Color(0xFFF2ECBE)
 
 val Orange01 = Color(0xFFFF8551)
+val Orange02 = Color(0xFFeb4500)
 
 val GrayBackground = Color(0xFFf5f7f6)
 val Black01 = Color(0xFF393E46)

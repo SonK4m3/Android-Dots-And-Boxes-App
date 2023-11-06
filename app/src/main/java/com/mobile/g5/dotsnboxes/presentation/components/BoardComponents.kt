@@ -50,14 +50,14 @@ fun DrawScope.drawRope(
     val arcWidth = curvedEdgeWidth * 0.4f
 
     val top = if (orientation == Orientation.Horizontal)
-        Offset((curvedEdgeLength - arcHeight) / 2, -arcWidth / 2)
+        Offset((curvedEdgeLength - arcHeight) / 2, -arcWidth / 2 - 2f)
     else
-        Offset(-arcWidth / 2, (curvedEdgeLength - arcHeight) / 2)
+        Offset(-arcWidth / 2 - 2f, (curvedEdgeLength - arcHeight) / 2)
 
     val bottom = if (orientation == Orientation.Horizontal)
-        Offset((curvedEdgeLength - arcHeight) / 2, curvedEdgeWidth - arcWidth / 2)
+        Offset((curvedEdgeLength - arcHeight) / 2, curvedEdgeWidth - arcWidth / 2 + 2f)
     else
-        Offset(curvedEdgeWidth - arcWidth / 2, (curvedEdgeLength - arcHeight) / 2)
+        Offset(curvedEdgeWidth - arcWidth / 2 + 2f, (curvedEdgeLength - arcHeight) / 2)
 
     val angleTop = if (orientation == Orientation.Horizontal)
         Offset(0f, 180f)
@@ -136,6 +136,32 @@ fun DrawScope.drawPreRope(
         start = startLine,
         end = endLine,
         strokeWidth = 3.dp.toPx()
+    )
+}
+
+fun DrawScope.drawBoxes(
+    color: Color,
+    topLeft: Offset = Offset.Zero,
+    size: Size,
+) {
+    val cornerRadiusValue = 18.dp.toPx()
+
+    drawRoundRect(
+        color = color,
+        topLeft = topLeft,
+        size = size,
+        style = Fill,
+        cornerRadius = CornerRadius(cornerRadiusValue)
+    )
+
+    drawRoundRect(
+        brush = Brush.radialGradient(
+            colors = listOf(Color.Gray, Color.Transparent),
+        ),
+        topLeft = topLeft,
+        size = size,
+        style = Fill,
+        cornerRadius = CornerRadius(cornerRadiusValue)
     )
 }
 

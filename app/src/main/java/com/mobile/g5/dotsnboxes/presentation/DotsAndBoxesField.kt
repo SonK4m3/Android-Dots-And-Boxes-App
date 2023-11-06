@@ -38,7 +38,9 @@ import com.mobile.g5.dotsnboxes.data.Rope
 import com.mobile.g5.dotsnboxes.presentation.components.*
 import com.mobile.g5.dotsnboxes.ui.theme.Beige
 import com.mobile.g5.dotsnboxes.ui.theme.Blue01
+import com.mobile.g5.dotsnboxes.ui.theme.Blue02
 import com.mobile.g5.dotsnboxes.ui.theme.Orange01
+import com.mobile.g5.dotsnboxes.ui.theme.Orange02
 import kotlin.math.abs
 import kotlin.math.ceil
 import kotlin.math.floor
@@ -196,21 +198,28 @@ fun DotsAndBoxesField(
             }
         }
 
-        for (i in 0..boxesNumber) {
-            for (j in 0..boxesNumber) {
+        gameState.boxes.forEachIndexed { row, _ ->
+            gameState.boxes[row].forEachIndexed { col, box ->
+                val boxSize = Size(cellSize.toPx(), cellSize.toPx())
+                val x = col * cellSize.toPx() + (this.size.width - boardSize.toPx()) / 2
+                val y = row * cellSize.toPx() + (this.size.height - boardSize.toPx()) / 2
+                val boxTopLeft = Offset(x, y)
 
+                box?.let {
+                    drawBoxes(
+                        color = if(box == 1) Blue02 else Orange02,
+                        topLeft = boxTopLeft,
+                        size = boxSize,
+                    )
+                }
+            }
+        }
+
+
+        (0..boxesNumber).forEach { i ->
+            (0..boxesNumber).forEach { j ->
                 val xBackDstDot = j * cellSize.toPx() + (this.size.width - boardSize.toPx()) / 2
                 val yBackDstBot = i * cellSize.toPx() + (this.size.height - boardSize.toPx()) / 2
-
-//                if(i == 0 && j == 0) {
-//                    drawRoundRect(
-//                        color = Orange01,
-//                        topLeft = Offset(xBackDstDot, yBackDstBot),
-//                        size = Size(cellSize.toPx(), cellSize.toPx()),
-//                        style = Fill,
-//                        cornerRadius = CornerRadius(5f)
-//                    )
-//                }
 
                 drawDot(
                     center = Offset(xBackDstDot, yBackDstBot),
@@ -250,6 +259,13 @@ fun PrevApp() {
                     arrayOf(null, null, Rope(2, 2), null, null),
                     arrayOf(null, Rope(1, 4), null, Rope(2, 5), null),
                     arrayOf(null, null, Rope(3, 0), null, null),  // horizontal 6
+                ),
+                boxes = arrayOf(
+                    arrayOf(1, null, null, null, null),
+                    arrayOf(null, null, null, null, null),
+                    arrayOf(null, null, null, null, null),
+                    arrayOf(null, null, null, 2, null),
+                    arrayOf(null, null, null, null, null)
                 )
             ),
             boxesNumber = 5,
